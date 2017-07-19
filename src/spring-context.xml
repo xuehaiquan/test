@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	
 <!-- 扫包 -->
 	<context:component-scan base-package="com.service.impl"></context:component-scan>
 	<context:property-placeholder location="classpath:jdbc.properties"/>
@@ -26,6 +27,7 @@
 		<property name="typeAliasesPackage" value="com.entity"></property>
 	</bean>
 	
+	
 	<!-- 配置DAO层 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
@@ -40,9 +42,14 @@
 			<tx:method name="*" propagation="REQUIRED"/>
 		</tx:attributes>
 	</tx:advice>
+	
 	<aop:config>
 		<aop:pointcut expression="execution(* com.itany.service.impl.*ServiceImpl.*(..))" id="pc"/>
 		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="pc"/>
-	</aop:config>
+	</aop:config> 
+	
+	<!-- <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean> -->
 	
 </beans>

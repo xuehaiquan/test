@@ -1,5 +1,8 @@
 package com.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,12 @@ public class StudentServiceImpl implements StudentService{
 	public void add(Student student) {
 		// TODO Auto-generated method stub
 		studentdao.insert(student);
+	}
+	@Override
+	public List<Student> query() {
+		List<Student> stus=new ArrayList<Student>();
+		stus=studentdao.select();
+		return stus;
 	}
 	
 	

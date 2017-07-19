@@ -1,6 +1,12 @@
 package com.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +17,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.entity.Student;
 import com.service.StudentService;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JsonConfig;
+
 @Controller
-@SessionAttributes("user")
+
 public class StudentController {
 	@Autowired
 	private StudentService studentService;
@@ -30,5 +39,26 @@ public class StudentController {
 		System.out.println(22222);
 		return "forward:/showLogin";
 	}
+	
+	@RequestMapping(path="/query")
+	public void queryAll(HttpServletRequest request,HttpServletResponse response){
+		List<Student>lists=new ArrayList<Student>();
+		lists=studentService.query();
+		for(Student list:lists){
+			System.out.println(list.getName());
+		}
+		JSONArray json=JSONArray.fromObject(lists.toArray());
+		PrintWriter out=null;
+		try {
+			out = response.getWriter();
+			out.print(json);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			out.close();
+		}
+	}
+	
 
 }

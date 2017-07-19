@@ -5,5 +5,14 @@
 		insert into user(name,password)
 				values (#{name},#{password})
 	</insert>
+	<resultMap type="Student" id="select">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="password" column="password"/>
+		<result property="phone" column="phone"/>
+	</resultMap>
+	<select id="select" resultMap="select">
+		select * from user
+	</select>
 	
 </mapper>
